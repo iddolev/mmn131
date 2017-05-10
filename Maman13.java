@@ -1,10 +1,12 @@
+import javax.swing.JFrame;
+
 public class Maman13 {
 
 	public Maman13() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public static void main(String[] args) {
+	public static void testGraph() {
 		char nodes[] = {'A', 'B', 'C', 'D', 'E'};
 		char edges[][] = {{'A', 'C'}, {'A', 'D'}, {'C', 'D'}, {'C', 'E'}};
 		
@@ -28,6 +30,12 @@ public class Maman13 {
 		} catch (Graph.GraphException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static void main(String[] args) {
+		//testGraph();
+        JFrame frame = new GraphFrame();
+        frame.setVisible(true);
 	}
 
 }
