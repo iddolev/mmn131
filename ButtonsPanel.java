@@ -49,7 +49,7 @@ public class ButtonsPanel extends JPanel {
 	    	answer[0] = nodeName1;
 	    	answer[1] = nodeName2;
 	    	return answer;
-		} catch (Graph.GraphException e1) {
+		} catch (GraphDS.GraphException e1) {
 			// Should not happen
 			return null;
 		}
@@ -73,7 +73,7 @@ public class ButtonsPanel extends JPanel {
 				}
 	        	_parent.getGraph().addEdge(nodeName1, nodeName2);
 	        	_parent.repaint();
-			} catch (Graph.GraphException e1) {
+			} catch (GraphDS.GraphException e1) {
 				// Should not happen
 			}
 		}
@@ -97,7 +97,7 @@ public class ButtonsPanel extends JPanel {
 	        	}
 	        	_parent.getGraph().deleteEdge(nodeName1, nodeName2);
 	        	_parent.repaint();
-			} catch (Graph.GraphException e1) {
+			} catch (GraphDS.GraphException e1) {
 				// Should not happen
 			}
 		}
@@ -120,7 +120,7 @@ public class ButtonsPanel extends JPanel {
             		return;
             	}
 				_parent.getGraph().deleteNode(nodeName);
-			} catch (Graph.GraphException e1) {
+			} catch (GraphDS.GraphException e1) {
 			}
             _parent.repaint();
 		}

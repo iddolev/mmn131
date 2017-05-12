@@ -9,13 +9,13 @@ public class GraphMain {
 		char edges[][] = {{'A', 'C'}, {'A', 'D'}, {'C', 'D'}, {'C', 'E'}};
 		
 		try {
-			Graph graph1 = new Graph(nodes, edges);
+			GraphDS graph1 = new GraphDS(nodes, edges);
 			System.out.println("Graph1: "+graph1);
-		} catch (Graph.GraphException e) {
+		} catch (GraphDS.GraphException e) {
 			e.printStackTrace();
 		}
 
-		Graph graph2 = new Graph();
+		GraphDS graph2 = new GraphDS();
 		System.out.println("Graph2: "+graph2);
 		
 		try {
@@ -25,7 +25,7 @@ public class GraphMain {
 			graph2.addEdge('C', 'Y');
 			graph2.addEdge('Y', 'X');
 			System.out.println("Graph2: "+graph2);
-		} catch (Graph.GraphException e) {
+		} catch (GraphDS.GraphException e) {
 			e.printStackTrace();
 		}
 	}

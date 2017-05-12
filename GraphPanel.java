@@ -12,7 +12,7 @@ public class GraphPanel extends JPanel {
 	private static final int FONT_SIZE = 20;
 	private static final Font NODE_FONT = new Font("TimesRoman", Font.BOLD, FONT_SIZE);
 	
-	private Graph _graph;
+	private GraphDS _graph;
 	private int[][] _nodePositions;   // 2D array from nodeIds to vector of coordinates x,y of the node
 
 	public GraphPanel() {
@@ -21,19 +21,19 @@ public class GraphPanel extends JPanel {
 	}
 
 	private void initGraph() {
-		_nodePositions = new int[Graph.NUM_POSSIBLE_NODES][2];
+		_nodePositions = new int[GraphDS.NUM_POSSIBLE_NODES][2];
 
 		/* This is just to initialize the graph with some example to show */
 		char nodes[] = {'B', 'D'};
 		char edges[][] = {{'B', 'D'}};
 		try {
-			_graph = new Graph(nodes, edges);
-			_nodePositions[Graph.charToNodeId('B')][0] = 50;
-			_nodePositions[Graph.charToNodeId('B')][1] = 50;
-			_nodePositions[Graph.charToNodeId('D')][0] = 170;
-			_nodePositions[Graph.charToNodeId('D')][1] = 130;
-		} catch (Graph.GraphException e) {
-			_graph = new Graph();
+			_graph = new GraphDS(nodes, edges);
+			_nodePositions[GraphDS.charToNodeId('B')][0] = 50;
+			_nodePositions[GraphDS.charToNodeId('B')][1] = 50;
+			_nodePositions[GraphDS.charToNodeId('D')][0] = 170;
+			_nodePositions[GraphDS.charToNodeId('D')][1] = 130;
+		} catch (GraphDS.GraphException e) {
+			_graph = new GraphDS();
 		}
 	}
 
@@ -54,11 +54,11 @@ public class GraphPanel extends JPanel {
 	            for (int pos2=pos1; pos2<nodeNames.length; ++pos2) {
 		        	char nodeName2 = nodeNames[pos2];
 					if (_graph.hasEdge(nodeNames[pos1], nodeNames[pos2])) {
-						paintEdge(g, _nodePositions[Graph.charToNodeId(nodeName1)], _nodePositions[Graph.charToNodeId(nodeName2)]);
+						paintEdge(g, _nodePositions[GraphDS.charToNodeId(nodeName1)], _nodePositions[GraphDS.charToNodeId(nodeName2)]);
 					}
 	            }
 	        }
-		} catch (Graph.GraphException e) {
+		} catch (GraphDS.GraphException e) {
 			// Should not happen
 		}
 	}
@@ -81,9 +81,9 @@ public class GraphPanel extends JPanel {
         for (char nodeName : _graph.getNodes()) {
         	try {
 				if (_graph.hasNode(nodeName)) {
-					paintNode(g, nodeName, _nodePositions[Graph.charToNodeId(nodeName)]);
+					paintNode(g, nodeName, _nodePositions[GraphDS.charToNodeId(nodeName)]);
 				}
-			} catch (Graph.GraphException e) {
+			} catch (GraphDS.GraphException e) {
 				// Should not happen
 			}
         }
@@ -100,7 +100,7 @@ public class GraphPanel extends JPanel {
 
 	/* Clear the graph (use a new Graph instance) */
 	public void clearGraph() {
-		_graph = new Graph();
+		_graph = new GraphDS();
 		repaint();
 	}
 
@@ -123,10 +123,10 @@ public class GraphPanel extends JPanel {
             		return;
             	}
 				_graph.addNode(nodeName);
-				int nodeId = Graph.charToNodeId(nodeName);
+				int nodeId = GraphDS.charToNodeId(nodeName);
 				_nodePositions[nodeId][0] = x;
 				_nodePositions[nodeId][1] = y;
-			} catch (Graph.GraphException e1) {
+			} catch (GraphDS.GraphException e1) {
 				// Should not happen
 			}
             repaint();
@@ -149,7 +149,7 @@ public class GraphPanel extends JPanel {
 		}
     }
 
-	public Graph getGraph() {
+	public GraphDS getGraph() {
 		return _graph;
 	}
 	

@@ -47,7 +47,7 @@ public class GraphFrame extends JFrame {
 		_graphPanel.clearGraph();
 	}
 
-	public Graph getGraph() {
+	public GraphDS getGraph() {
 		return _graphPanel.getGraph();
 	}
 	
