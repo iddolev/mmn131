@@ -12,6 +12,9 @@ import javax.swing.JPanel;
  */
 public class GraphFrame extends JFrame {
 
+	private static final int FRAME_WIDTH = 600;
+	private static final int FRAME_HEIGHT = 600;
+	
 	private GraphPanel _graphPanel;
 	
 	public GraphFrame() {
@@ -21,12 +24,15 @@ public class GraphFrame extends JFrame {
 	
 	private void initFrame() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(600, 600);
+        setSize(FRAME_WIDTH, FRAME_HEIGHT);
         setResizable(false);
 		setLayout(new BorderLayout());        
+		
         _graphPanel = new GraphPanel();
         add(_graphPanel, BorderLayout.CENTER);
+        
         add(new ButtonsPanel(this), BorderLayout.SOUTH);
+        
     	JLabel lblInstr = new JLabel("Click on the area below to add a node");
     	JPanel top = new JPanel();
     	top.setLayout(new FlowLayout());
