@@ -1,11 +1,9 @@
 import javax.swing.JFrame;
 
+/* The main application class */
 public class GraphMain {
 
-	public GraphMain() {
-		// TODO Auto-generated constructor stub
-	}
-
+	/* Just for testing class Graph */
 	public static void testGraph() {
 		char nodes[] = {'A', 'B', 'C', 'D', 'E'};
 		char edges[][] = {{'A', 'C'}, {'A', 'D'}, {'C', 'D'}, {'C', 'E'}};
