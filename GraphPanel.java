@@ -32,10 +32,10 @@ public class GraphPanel extends JPanel {
 		char edges[][] = {{'B', 'D'}};
 		try {
 			_graph = new Graph(nodes, edges);
-			_nodePositions[Graph.charToNodeId('B')][0] = 20;
-			_nodePositions[Graph.charToNodeId('B')][1] = 30;
-			_nodePositions[Graph.charToNodeId('D')][0] = 120;
-			_nodePositions[Graph.charToNodeId('D')][1] = 80;
+			_nodePositions[Graph.charToNodeId('B')][0] = 50;
+			_nodePositions[Graph.charToNodeId('B')][1] = 50;
+			_nodePositions[Graph.charToNodeId('D')][0] = 170;
+			_nodePositions[Graph.charToNodeId('D')][1] = 130;
 		} catch (Graph.GraphException e) {
 			_graph = new Graph();
 		}

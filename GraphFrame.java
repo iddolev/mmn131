@@ -1,5 +1,6 @@
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 
 import javax.swing.JFrame;
@@ -10,6 +11,7 @@ import javax.swing.JPanel;
 public class GraphFrame extends JFrame {
 
 	private GraphPanel _graphPanel;
+	private static final Font TEXT_FONT = new Font(Font.SANS_SERIF, 0, 15);
 	
 	public GraphFrame() {
 		super("Graph Application");
@@ -18,13 +20,17 @@ public class GraphFrame extends JFrame {
 	
 	private void initFrame() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1000, 1000);
+        setSize(600, 600);
         setResizable(false);
 		setLayout(new BorderLayout());        
+		
         _graphPanel = new GraphPanel();
         add(_graphPanel, BorderLayout.CENTER);
+        
         add(new ButtonsPanel(this), BorderLayout.SOUTH);
+        
     	JLabel lblInstr = new JLabel("Press on the screen to add a node");
+    	lblInstr.setFont(TEXT_FONT);
     	JPanel top = new JPanel();
     	top.setLayout(new FlowLayout());
     	top.add(lblInstr);
