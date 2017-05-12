@@ -1,4 +1,3 @@
-import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -6,6 +5,7 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+/* Class for the row of buttons at the bottom of the Graph JFrame */
 public class ButtonsPanel extends JPanel {
 
 	private GraphFrame _parent;
@@ -26,6 +26,7 @@ public class ButtonsPanel extends JPanel {
 		add(btnClear);
 	}
 
+	/* Ask user to type an edge and check if node names are legal and nodes exist in the graph */
     private char[] getEdgeFromUser(String message) {
     	
 		String input = JOptionPane.showInputDialog(null, message, "Input", JOptionPane.QUESTION_MESSAGE);
@@ -54,6 +55,7 @@ public class ButtonsPanel extends JPanel {
 		}
     }
 
+    /* Handle pressing the "Add Edge" button */
     private class AddEdgeButtonListener implements ActionListener
     {
 		@Override
@@ -77,6 +79,7 @@ public class ButtonsPanel extends JPanel {
 		}
     }
     
+    /* Handle pressing the "Delete Edge" button */
     private class DeleteEdgeButtonListener implements ActionListener {
 
 		@Override
@@ -101,6 +104,7 @@ public class ButtonsPanel extends JPanel {
 		
     }
     
+    /* Handle pressing the "Delete Node" button */
     private class DeleteNodeButtonListener implements ActionListener {
 
 		@Override
@@ -123,6 +127,7 @@ public class ButtonsPanel extends JPanel {
     	
     }
 
+    /* Handle pressing the "Clear" button - makes the graph empty*/
     private class ClearButtonListener implements ActionListener
     {
 		@Override

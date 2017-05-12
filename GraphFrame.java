@@ -7,6 +7,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+/* Class for holding a GraphPanel to show a graph and add nodes, 
+ * and a ButtonsPanel with several action buttons
+ */
 public class GraphFrame extends JFrame {
 
 	private GraphPanel _graphPanel;
@@ -18,13 +21,13 @@ public class GraphFrame extends JFrame {
 	
 	private void initFrame() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1000, 1000);
+        setSize(600, 600);
         setResizable(false);
 		setLayout(new BorderLayout());        
         _graphPanel = new GraphPanel();
         add(_graphPanel, BorderLayout.CENTER);
         add(new ButtonsPanel(this), BorderLayout.SOUTH);
-    	JLabel lblInstr = new JLabel("Press on the screen to add a node");
+    	JLabel lblInstr = new JLabel("Click on the area below to add a node");
     	JPanel top = new JPanel();
     	top.setLayout(new FlowLayout());
     	top.add(lblInstr);
@@ -39,6 +42,8 @@ public class GraphFrame extends JFrame {
 		return _graphPanel.getGraph();
 	}
 	
+	/* Returns true iff input contains "X,Y" where X and Y are single chars.
+	 * Also shows error messages to the user if needed.	 */
 	public static boolean isValidEdgeName(String input)
 	{
     	if (input == null) {
@@ -61,6 +66,8 @@ public class GraphFrame extends JFrame {
     	return true;
 	}
 
+	/* Returns true iff input contains a legal node name.
+	 * Also shows error messages to the user if needed.	 */
 	public static boolean isValidNodeName(String input){
 		if (input == null){
     		return false;
