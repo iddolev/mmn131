@@ -7,6 +7,7 @@ import java.awt.LayoutManager;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -18,9 +19,12 @@ public class GraphPanel extends JPanel {
 	
 	private Graph _graph;
 	private int[][] _nodePositions;   // 2D array from nodeIds to vector of x,y of the node
+	private JLabel _lblInstr;
 
 	public GraphPanel() {
 		initGraph();
+		_lblInstr = new JLabel("Press on the screen to add a node");
+		add(_lblInstr);
         addMouseListener(new Listener());
 	}
 
@@ -72,7 +76,12 @@ public class GraphPanel extends JPanel {
         Graphics2D g2 = (Graphics2D)g;
     	g.setColor(Color.BLUE);
         g2.setStroke(new BasicStroke(5));
-        g2.drawLine(position1[0], position1[1], position2[0], position2[1]);
+        if (position1[0] == position2[0] && position1[1] == position2[1]){ // draw an 'ovalic' edge from the node to itself
+        	g2.drawOval(position1[0], position1[1], NODE_RADIUS*2, NODE_RADIUS*2);
+        }
+        else {
+        	g2.drawLine(position1[0], position1[1], position2[0], position2[1]);
+        }
 	}
 	
 	private void paintNodes(Graphics g) {
@@ -108,8 +117,11 @@ public class GraphPanel extends JPanel {
             int y = e.getY();
             try {
             	String newName = JOptionPane.showInputDialog(null, "Enter new node name (one character)", "Input", JOptionPane.QUESTION_MESSAGE);
-            	if (newName.length() != 1) {
+            	if (newName != null && newName.length() != 1) {
             		JOptionPane.showMessageDialog(null, "Node name must be one alphabetic letter", "Error", JOptionPane.ERROR_MESSAGE);
+            		return;
+            	}
+            	else if (newName == null){
             		return;
             	}
             	char nodeName = newName.toUpperCase().charAt(0);
