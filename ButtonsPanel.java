@@ -27,28 +27,28 @@ public class ButtonsPanel extends JPanel {
 	}
 
 	/* Ask user to type an edge and check if node names are legal and nodes exist in the graph */
-    private char[] getEdgeFromUser(String message) {
+	private char[] getEdgeFromUser(String message) {
     	
 		String input = JOptionPane.showInputDialog(null, message, "Input", JOptionPane.QUESTION_MESSAGE);
-    	if (input == null) {
-    		return null;
-    	}
+		if (input == null) {
+			return null;
+		}
     	
 		if (!GraphFrame.isValidEdgeName(input))
 			return null;
 
-    	char nodeName1 = input.toUpperCase().charAt(0);
-    	char nodeName2 = input.toUpperCase().charAt(2);
+		char nodeName1 = input.toUpperCase().charAt(0);
+		char nodeName2 = input.toUpperCase().charAt(2);
 
-    	try {
+		try {
 			if (!_parent.getGraph().hasNode(nodeName1) || !_parent.getGraph().hasNode(nodeName2)) {
 				JOptionPane.showMessageDialog(null, "Node does not exist in the graph", "Error", JOptionPane.ERROR_MESSAGE);
 				return null;
 			}
-	    	char[] answer = new char[2];
-	    	answer[0] = nodeName1;
-	    	answer[1] = nodeName2;
-	    	return answer;
+			char[] answer = new char[2];
+			answer[0] = nodeName1;
+			answer[1] = nodeName2;
+			return answer;
 		} catch (Graph.GraphException e1) {
 			// Should not happen
 			return null;
@@ -59,20 +59,20 @@ public class ButtonsPanel extends JPanel {
     private class AddEdgeButtonListener implements ActionListener
     {
 		@Override
-        public void actionPerformed(ActionEvent e) {
+		public void actionPerformed(ActionEvent e) {
 			char[] nodeNames = getEdgeFromUser("Enter new edge in the format: X,Y");
 			if (nodeNames == null)
 				return;
 
-        	char nodeName1 = nodeNames[0];
-        	char nodeName2 = nodeNames[1];
-        	try {
+			char nodeName1 = nodeNames[0];
+			char nodeName2 = nodeNames[1];
+			try {
 				if (_parent.getGraph().hasEdge(nodeName1, nodeName2)) {
 					JOptionPane.showMessageDialog(null, "Edge already exists in the graph", "Error", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-	        	_parent.getGraph().addEdge(nodeName1, nodeName2);
-	        	_parent.repaint();
+				_parent.getGraph().addEdge(nodeName1, nodeName2);
+				_parent.repaint();
 			} catch (Graph.GraphException e1) {
 				// Should not happen
 			}
@@ -109,30 +109,31 @@ public class ButtonsPanel extends JPanel {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-            try {
-            	String input = JOptionPane.showInputDialog(null, "Enter node name to delete (one character)", "Input", JOptionPane.QUESTION_MESSAGE);
-            	if (!GraphFrame.isValidNodeName(input)){
-            		return;
-            	}
-            	char nodeName = input.toUpperCase().charAt(0);
-            	if (!_parent.getGraph().hasNode(nodeName)) {
-            		JOptionPane.showMessageDialog(null, "Node does not exists in the graph", "Error", JOptionPane.ERROR_MESSAGE);
-            		return;
-            	}
+			try {
+				String input = JOptionPane.showInputDialog(null, "Enter node name to delete (one character)", "Input", JOptionPane.QUESTION_MESSAGE);
+				if (!GraphFrame.isValidNodeName(input)){
+					return;
+				}
+				char nodeName = input.toUpperCase().charAt(0);
+				if (!_parent.getGraph().hasNode(nodeName)) {
+					JOptionPane.showMessageDialog(null, "Node does not exists in the graph", "Error", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
 				_parent.getGraph().deleteNode(nodeName);
 			} catch (Graph.GraphException e1) {
+				// Should not happen
 			}
-            _parent.repaint();
+			_parent.repaint();
 		}
     	
     }
 
     /* Handle pressing the "Clear" button - makes the graph empty*/
-    private class ClearButtonListener implements ActionListener
-    {
+	private class ClearButtonListener implements ActionListener
+	{
 		@Override
-        public void actionPerformed(ActionEvent e) {
+		public void actionPerformed(ActionEvent e) {
 			_parent.clearGraph();
 		}
-    }
+	}
 }
