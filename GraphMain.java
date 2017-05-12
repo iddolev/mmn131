@@ -35,6 +35,7 @@ public class GraphMain {
 	public static void main(String[] args) {
 		//testGraph();
         JFrame frame = new GraphFrame();
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 	}
 

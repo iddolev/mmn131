@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 
 public class ButtonsPanel extends JPanel {
 
-	GraphFrame _parent;
+	private GraphFrame _parent;
 	
 	public ButtonsPanel(GraphFrame parent) {
 		_parent = parent;
@@ -26,36 +26,50 @@ public class ButtonsPanel extends JPanel {
 		add(btnClear);
 	}
 
+    private char[] getEdgeFromUser(String message) {
+    	
+		String input = JOptionPane.showInputDialog(null, message, "Input", JOptionPane.QUESTION_MESSAGE);
+    	if (input == null) {
+    		return null;
+    	}
+    	
+		if (!GraphFrame.isValidEdgeName(input))
+			return null;
+
+    	char nodeName1 = input.toUpperCase().charAt(0);
+    	char nodeName2 = input.toUpperCase().charAt(2);
+
+    	try {
+			if (!_parent.getGraph().hasNode(nodeName1) || !_parent.getGraph().hasNode(nodeName2)) {
+				JOptionPane.showMessageDialog(null, "Node does not exist in the graph", "Error", JOptionPane.ERROR_MESSAGE);
+				return null;
+			}
+	    	char[] answer = new char[2];
+	    	answer[0] = nodeName1;
+	    	answer[1] = nodeName2;
+	    	return answer;
+		} catch (Graph.GraphException e1) {
+			// Should not happen
+			return null;
+		}
+    }
+
     private class AddEdgeButtonListener implements ActionListener
     {
 		@Override
         public void actionPerformed(ActionEvent e) {
-        	String input = JOptionPane.showInputDialog(null, "Enter new edge in the format: X,Y", "Input", JOptionPane.QUESTION_MESSAGE);
-        	if (input != null && (input.length() != 3 || input.charAt(1) != ',')) {
-        		JOptionPane.showMessageDialog(null, "Illegal format", "Error", JOptionPane.ERROR_MESSAGE);
-        		return;
-        	} 
-        	else if (input == null){
-        		return;
-			}
-        	input = input.toUpperCase();
-        	char nodeName1 = input.charAt(0);
-        	char nodeName2 = input.charAt(2);
-        	if (!Character.isLetter(nodeName1) || !Character.isLetter(nodeName2)) {
-        		JOptionPane.showMessageDialog(null, "Node name must be one alphabetic letter", "Error", JOptionPane.ERROR_MESSAGE);
-        		return;
-        	}
-        	Graph graph = _parent.getGraph();
+			char[] nodeNames = getEdgeFromUser("Enter new edge in the format: X,Y");
+			if (nodeNames == null)
+				return;
+
+        	char nodeName1 = nodeNames[0];
+        	char nodeName2 = nodeNames[1];
         	try {
-				if (!graph.hasNode(nodeName1) || !graph.hasNode(nodeName2)) {
-					JOptionPane.showMessageDialog(null, "Node does not exist in the graph", "Error", JOptionPane.ERROR_MESSAGE);
+				if (_parent.getGraph().hasEdge(nodeName1, nodeName2)) {
+					JOptionPane.showMessageDialog(null, "Edge already exists in the graph", "Error", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-	        	if (graph.hasEdge(nodeName1, nodeName2)) {
-	        		JOptionPane.showMessageDialog(null, "Edge already exists in the graph", "Error", JOptionPane.ERROR_MESSAGE);
-	        		return;
-	        	}
-	        	graph.addEdge(nodeName1, nodeName2);
+	        	_parent.getGraph().addEdge(nodeName1, nodeName2);
 	        	_parent.repaint();
 			} catch (Graph.GraphException e1) {
 				// Should not happen
@@ -67,38 +81,24 @@ public class ButtonsPanel extends JPanel {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			String input = JOptionPane.showInputDialog(null, "Enter edge to delete in the format: X,Y", "Input", JOptionPane.QUESTION_MESSAGE);
-			if (input == null){
-        		return;
-			}
-			if (input.length() != 3 || input.charAt(1) != ',') {
-        		JOptionPane.showMessageDialog(null, "Illegal format", "Error", JOptionPane.ERROR_MESSAGE);
-        		return;
-        	}
-        	input = input.toUpperCase();
-        	char nodeName1 = input.charAt(0);
-        	char nodeName2 = input.charAt(2);
-        	if (!Character.isLetter(nodeName1) || !Character.isLetter(nodeName2)) {
-        		JOptionPane.showMessageDialog(null, "Node name must be one alphabetic letter", "Error", JOptionPane.ERROR_MESSAGE);
-        		return;
-        	}
-        	Graph graph = _parent.getGraph();
+			char[] nodeNames = getEdgeFromUser("Enter edge to delete in the format: X,Y");
+			if (nodeNames == null)
+				return;
+			
+			char nodeName1 = nodeNames[0];
+        	char nodeName2 = nodeNames[1];
         	try {
-				if (!graph.hasNode(nodeName1) || !graph.hasNode(nodeName2)) {
-					JOptionPane.showMessageDialog(null, "Node does not exist in the graph", "Error", JOptionPane.ERROR_MESSAGE);
-					return;
-				}
-	        	if (!graph.hasEdge(nodeName1, nodeName2)) {
+	        	if (!_parent.getGraph().hasEdge(nodeName1, nodeName2)) {
 	        		JOptionPane.showMessageDialog(null, "Edge does not exists in the graph", "Error", JOptionPane.ERROR_MESSAGE);
 	        		return;
 	        	}
-	        	graph.deleteEdge(nodeName1, nodeName2);
+	        	_parent.getGraph().deleteEdge(nodeName1, nodeName2);
 	        	_parent.repaint();
 			} catch (Graph.GraphException e1) {
 				// Should not happen
 			}
 		}
-    	
+		
     }
     
     private class DeleteNodeButtonListener implements ActionListener {
@@ -107,24 +107,15 @@ public class ButtonsPanel extends JPanel {
 		public void actionPerformed(ActionEvent e) {
             try {
             	String input = JOptionPane.showInputDialog(null, "Enter node name to delete (one character)", "Input", JOptionPane.QUESTION_MESSAGE);
-            	if (input == null){
-            		return;
-            	}
-            	if (input.length() != 1) {
-            		JOptionPane.showMessageDialog(null, "Node name must be one alphabetic letter", "Error", JOptionPane.ERROR_MESSAGE);
+            	if (!GraphFrame.isValidNodeName(input)){
             		return;
             	}
             	char nodeName = input.toUpperCase().charAt(0);
-            	Graph _graph = _parent.getGraph();
-            	if (!Character.isLetter(nodeName)) {
-            		JOptionPane.showMessageDialog(null, "Node name must be one alphabetic letter", "Error", JOptionPane.ERROR_MESSAGE);
-            		return;
-            	}
-            	if (!_graph.hasNode(nodeName)) {
+            	if (!_parent.getGraph().hasNode(nodeName)) {
             		JOptionPane.showMessageDialog(null, "Node does not exists in the graph", "Error", JOptionPane.ERROR_MESSAGE);
             		return;
             	}
-				_graph.deleteNode(nodeName);
+				_parent.getGraph().deleteNode(nodeName);
 			} catch (Graph.GraphException e1) {
 			}
             _parent.repaint();

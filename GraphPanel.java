@@ -19,12 +19,9 @@ public class GraphPanel extends JPanel {
 	
 	private Graph _graph;
 	private int[][] _nodePositions;   // 2D array from nodeIds to vector of x,y of the node
-	private JLabel _lblInstr;
 
 	public GraphPanel() {
 		initGraph();
-		_lblInstr = new JLabel("Press on the screen to add a node");
-		add(_lblInstr);
         addMouseListener(new Listener());
 	}
 
@@ -108,7 +105,7 @@ public class GraphPanel extends JPanel {
 		_graph = new Graph();
 		repaint();
 	}
-
+	
     private class Listener implements MouseListener
     {
 		@Override
@@ -117,18 +114,10 @@ public class GraphPanel extends JPanel {
             int y = e.getY();
             try {
             	String newName = JOptionPane.showInputDialog(null, "Enter new node name (one character)", "Input", JOptionPane.QUESTION_MESSAGE);
-            	if (newName != null && newName.length() != 1) {
-            		JOptionPane.showMessageDialog(null, "Node name must be one alphabetic letter", "Error", JOptionPane.ERROR_MESSAGE);
-            		return;
-            	}
-            	else if (newName == null){
+            	if(!GraphFrame.isValidNodeName(newName)){
             		return;
             	}
             	char nodeName = newName.toUpperCase().charAt(0);
-            	if (!Character.isLetter(nodeName)) {
-            		JOptionPane.showMessageDialog(null, "Node name must be one alphabetic letter", "Error", JOptionPane.ERROR_MESSAGE);
-            		return;
-            	}
             	if (_graph.hasNode(nodeName)) {
             		JOptionPane.showMessageDialog(null, "Node already exists in the graph", "Error", JOptionPane.ERROR_MESSAGE);
             		return;
