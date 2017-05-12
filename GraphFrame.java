@@ -47,7 +47,7 @@ public class GraphFrame extends JFrame {
 		_graphPanel.clearGraph();
 	}
 
-	public Graph getGraph() {
+	public GraphDS getGraph() {
 		return _graphPanel.getGraph();
 	}
 	
@@ -55,24 +55,24 @@ public class GraphFrame extends JFrame {
 	 * Also shows error messages to the user if needed.	 */
 	public static boolean isValidEdgeName(String input)
 	{
-    	if (input == null) {
-    		return false;
-    	}
+		if (input == null) {
+			return false;
+		}
 		
 		if (input.length() != 3 || input.charAt(1) != ',') {
-    		JOptionPane.showMessageDialog(null, "Illegal format", "Error", JOptionPane.ERROR_MESSAGE);
-    		return false;
-    	} 
+			JOptionPane.showMessageDialog(null, "Illegal format", "Error", JOptionPane.ERROR_MESSAGE);
+			return false;
+		} 
 		
-    	char nodeName1 = input.charAt(0);
-    	char nodeName2 = input.charAt(2);
-    	input = input.toUpperCase();
+		char nodeName1 = input.charAt(0);
+		char nodeName2 = input.charAt(2);
+		input = input.toUpperCase();
     	
-    	if (!Character.isLetter(nodeName1) || !Character.isLetter(nodeName2)) {
-    		JOptionPane.showMessageDialog(null, "Node name must be one alphabetic letter", "Error", JOptionPane.ERROR_MESSAGE);
-    		return false;
-    	}
-    	return true;
+		if (!Character.isLetter(nodeName1) || !Character.isLetter(nodeName2)) {
+			JOptionPane.showMessageDialog(null, "Node name must be one alphabetic letter", "Error", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		return true;
 	}
 
 	/* Returns true iff input contains a legal node name.
@@ -80,16 +80,16 @@ public class GraphFrame extends JFrame {
 	public static boolean isValidNodeName(String input){
 		if (input == null){
     		return false;
-    	}
+		}
 		if (input.length() != 1) {
-    		JOptionPane.showMessageDialog(null, "Node name must be one alphabetic letter", "Error", JOptionPane.ERROR_MESSAGE);
-    		return false;
-    	}
-    	char nodeName = input.toUpperCase().charAt(0);
-    	if (!Character.isLetter(nodeName)) {
-    		JOptionPane.showMessageDialog(null, "Node name must be one alphabetic letter", "Error", JOptionPane.ERROR_MESSAGE);
-    		return false;
-    	}
-    	return true;
+			JOptionPane.showMessageDialog(null, "Node name must be one alphabetic letter", "Error", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		char nodeName = input.toUpperCase().charAt(0);
+		if (!Character.isLetter(nodeName)) {
+			JOptionPane.showMessageDialog(null, "Node name must be one alphabetic letter", "Error", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		return true;
 	}
 }

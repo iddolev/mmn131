@@ -1,4 +1,4 @@
-/* Class for representing a Character graph 
+/* Class for representing a Character Graph data structure. 
  * (assuming only uppercase characters A-Z can be nodes) 
  * In this simple implementation, we hold a vector of booleans 
  *   that indicates which nodes are in the graph,
@@ -6,7 +6,7 @@
  * Various exceptions are defined at the end 
  * - they are thrown for different kinds of illegal inputs to methods.
  */
-public class Graph {
+public class GraphDS {
 
 	public static final int NUM_POSSIBLE_NODES = 'Z'-'A'+1;
 	
@@ -14,11 +14,11 @@ public class Graph {
 	private boolean _edges[][] = new boolean[NUM_POSSIBLE_NODES][NUM_POSSIBLE_NODES];
 	private int _numNodes = 0;
 
-	public Graph() {
+	public GraphDS() {
 		// All nodes and edges are automatically initialized to false, so no need to do anything
 	}
 	
-	public Graph(char[] nodeIds, char[][] edges) throws IllegalCharacterNodeException, NodeAlreadyExistsException, 
+	public GraphDS(char[] nodeIds, char[][] edges) throws IllegalCharacterNodeException, NodeAlreadyExistsException, 
 														IllegalEdgeInputException, EdgeAdditionForNonExistingNodeException, 
 														EdgeAlreadyExistsException, NullInputException {
 		if (nodeIds == null || edges == null) {
@@ -45,7 +45,7 @@ public class Graph {
 
 	/* Convert from index in the nodes vector (or edge table) to the name of the node */
 	public static char nodeIdToChar(int nodeId) {
-		assert nodeId >= 0 && nodeId < Graph.NUM_POSSIBLE_NODES;
+		assert nodeId >= 0 && nodeId < GraphDS.NUM_POSSIBLE_NODES;
 		return (char) ('A' + nodeId);
 	}
 
@@ -164,9 +164,9 @@ public class Graph {
 	/* Two graphs are equal iff they have exactly the same nodes and same edges */
 	@Override
 	public boolean equals(Object other) {
-		if (!(other instanceof Graph))
+		if (!(other instanceof GraphDS))
 			return false;
-		Graph graph = (Graph) other;
+		GraphDS graph = (GraphDS) other;
 		for (int i=0; i<NUM_POSSIBLE_NODES; ++i) {
 			if (_nodes[i] != graph._nodes[i])
 				return false;

@@ -12,95 +12,94 @@ public class GraphPanel extends JPanel {
 	private static final int FONT_SIZE = 20;
 	private static final Font NODE_FONT = new Font("TimesRoman", Font.BOLD, FONT_SIZE);
 	
-	private Graph _graph;
+	private GraphDS _graph;
 	private int[][] _nodePositions;   // 2D array from nodeIds to vector of coordinates x,y of the node
 
 	public GraphPanel() {
 		initGraph();
-        addMouseListener(new Listener());
+		addMouseListener(new Listener());
 	}
 
 	private void initGraph() {
-		_nodePositions = new int[Graph.NUM_POSSIBLE_NODES][2];
+		_nodePositions = new int[GraphDS.NUM_POSSIBLE_NODES][2];
 
 		/* This is just to initialize the graph with some example to show */
 		char nodes[] = {'B', 'D'};
 		char edges[][] = {{'B', 'D'}};
 		try {
-			_graph = new Graph(nodes, edges);
-			_nodePositions[Graph.charToNodeId('B')][0] = 50;
-			_nodePositions[Graph.charToNodeId('B')][1] = 50;
-			_nodePositions[Graph.charToNodeId('D')][0] = 170;
-			_nodePositions[Graph.charToNodeId('D')][1] = 130;
-		} catch (Graph.GraphException e) {
-			_graph = new Graph();
+			_graph = new GraphDS(nodes, edges);
+			_nodePositions[GraphDS.charToNodeId('B')][0] = 50;
+			_nodePositions[GraphDS.charToNodeId('B')][1] = 50;
+			_nodePositions[GraphDS.charToNodeId('D')][0] = 170;
+			_nodePositions[GraphDS.charToNodeId('D')][1] = 130;
+		} catch (GraphDS.GraphException e) {
+			_graph = new GraphDS();
 		}
 	}
 
 	@Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        paintEdges(g);
-        paintNodes(g);
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		paintEdges(g);
+		paintNodes(g);
 	}
 
 	/* Paint all the graph edges */
 	private void paintEdges(Graphics g) {
 		char[] nodeNames = _graph.getNodes();
 	
-    	try {
-	        for (int pos1=0; pos1<nodeNames.length; ++pos1) {
-	        	char nodeName1 = nodeNames[pos1];
-	            for (int pos2=pos1; pos2<nodeNames.length; ++pos2) {
-		        	char nodeName2 = nodeNames[pos2];
+		try {
+			for (int pos1=0; pos1<nodeNames.length; ++pos1) {
+				char nodeName1 = nodeNames[pos1];
+				for (int pos2=pos1; pos2<nodeNames.length; ++pos2) {
+					char nodeName2 = nodeNames[pos2];
 					if (_graph.hasEdge(nodeNames[pos1], nodeNames[pos2])) {
-						paintEdge(g, _nodePositions[Graph.charToNodeId(nodeName1)], _nodePositions[Graph.charToNodeId(nodeName2)]);
+						paintEdge(g, _nodePositions[GraphDS.charToNodeId(nodeName1)], _nodePositions[GraphDS.charToNodeId(nodeName2)]);
 					}
-	            }
-	        }
-		} catch (Graph.GraphException e) {
+				}
+			}
+		} catch (GraphDS.GraphException e) {
 			// Should not happen
 		}
 	}
 
 	/* Paint one graph edge between the two positions */
 	private void paintEdge(Graphics g, int[] position1, int[] position2) {
-        Graphics2D g2 = (Graphics2D)g;
-    	g.setColor(Color.BLUE);
-        g2.setStroke(new BasicStroke(5));
-        if (position1[0] == position2[0] && position1[1] == position2[1]){ // draw an 'ovalic' edge from the node to itself
-        	g2.drawOval(position1[0], position1[1], NODE_RADIUS*2, NODE_RADIUS*2);
-        }
-        else {
-        	g2.drawLine(position1[0], position1[1], position2[0], position2[1]);
-        }
+		Graphics2D g2 = (Graphics2D)g;
+		g.setColor(Color.BLUE);
+		g2.setStroke(new BasicStroke(5));
+		if (position1[0] == position2[0] && position1[1] == position2[1]){ // draw an 'ovalic' edge from the node to itself
+			g2.drawOval(position1[0], position1[1], NODE_RADIUS*2, NODE_RADIUS*2);
+		} else {
+			g2.drawLine(position1[0], position1[1], position2[0], position2[1]);
+		}
 	}
 	
 	/* Paint all the graph nodes */
 	private void paintNodes(Graphics g) {
-        for (char nodeName : _graph.getNodes()) {
-        	try {
+		for (char nodeName : _graph.getNodes()) {
+			try {
 				if (_graph.hasNode(nodeName)) {
-					paintNode(g, nodeName, _nodePositions[Graph.charToNodeId(nodeName)]);
+					paintNode(g, nodeName, _nodePositions[GraphDS.charToNodeId(nodeName)]);
 				}
-			} catch (Graph.GraphException e) {
+			} catch (GraphDS.GraphException e) {
 				// Should not happen
 			}
-        }
+		}
 	}
 
 	/* Paint one graph node */
 	private void paintNode(Graphics g, char nodeName, int[] position) {
-    	g.setColor(Color.RED);
-    	g.fillOval(position[0]-NODE_RADIUS, position[1]-NODE_RADIUS, NODE_RADIUS*2, NODE_RADIUS*2);
-    	g.setColor(Color.BLACK);
-    	g.setFont(NODE_FONT);
-    	g.drawString(""+nodeName, (int)(position[0]-FONT_SIZE/3.5), (int)(position[1]+FONT_SIZE/2.5));
+		g.setColor(Color.RED);
+		g.fillOval(position[0]-NODE_RADIUS, position[1]-NODE_RADIUS, NODE_RADIUS*2, NODE_RADIUS*2);
+		g.setColor(Color.BLACK);
+		g.setFont(NODE_FONT);
+		g.drawString(""+nodeName, (int)(position[0]-FONT_SIZE/3.5), (int)(position[1]+FONT_SIZE/2.5));
 	}
 
 	/* Clear the graph (use a new Graph instance) */
 	public void clearGraph() {
-		_graph = new Graph();
+		_graph = new GraphDS();
 		repaint();
 	}
 
@@ -109,28 +108,28 @@ public class GraphPanel extends JPanel {
     private class Listener implements MouseListener
     {
 		@Override
-        public void mouseClicked(MouseEvent e) {
-            int x = e.getX();
-            int y = e.getY();
-            try {
-            	String newName = JOptionPane.showInputDialog(null, "Enter new node name (one character)", "Input", JOptionPane.QUESTION_MESSAGE);
-            	if(!GraphFrame.isValidNodeName(newName)){
-            		return;
-            	}
-            	char nodeName = newName.toUpperCase().charAt(0);
-            	if (_graph.hasNode(nodeName)) {
-            		JOptionPane.showMessageDialog(null, "Node already exists in the graph", "Error", JOptionPane.ERROR_MESSAGE);
-            		return;
-            	}
+		public void mouseClicked(MouseEvent e) {
+			int x = e.getX();
+			int y = e.getY();
+			try {
+				String newName = JOptionPane.showInputDialog(null, "Enter new node name (one character)", "Input", JOptionPane.QUESTION_MESSAGE);
+				if(!GraphFrame.isValidNodeName(newName)){
+					return;
+				}
+				char nodeName = newName.toUpperCase().charAt(0);
+				if (_graph.hasNode(nodeName)) {
+					JOptionPane.showMessageDialog(null, "Node already exists in the graph", "Error", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
 				_graph.addNode(nodeName);
-				int nodeId = Graph.charToNodeId(nodeName);
+				int nodeId = GraphDS.charToNodeId(nodeName);
 				_nodePositions[nodeId][0] = x;
 				_nodePositions[nodeId][1] = y;
-			} catch (Graph.GraphException e1) {
+			} catch (GraphDS.GraphException e1) {
 				// Should not happen
 			}
-            repaint();
-        }
+			repaint();
+		}
 
 		@Override
 		public void mouseEntered(MouseEvent arg0) {
@@ -149,7 +148,7 @@ public class GraphPanel extends JPanel {
 		}
     }
 
-	public Graph getGraph() {
+	public GraphDS getGraph() {
 		return _graph;
 	}
 	
